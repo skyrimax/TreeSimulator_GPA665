@@ -26,7 +26,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -125,14 +125,20 @@
   <ItemGroup>
     <ClCompile Include="Branch.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="VectorField.cpp" />
+    <ClCompile Include="Wind.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Branch.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="array.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="VectorField.h" />
+    <ClInclude Include="Wind.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Vector.tpp" />
+    <None Include="array.tpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

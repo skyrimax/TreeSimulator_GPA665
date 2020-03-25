@@ -1,4 +1,4 @@
-#include "Vector.h"
+#include "array.h"
 
 #pragma once
 
@@ -6,7 +6,7 @@
 #include<utility>
 
 template<class T>
-Vector<T>::Vector()
+array<T>::array()
 {
 	//Create an array on one element and initialize internal attributes
 	m_data = new T[1];
@@ -15,7 +15,7 @@ Vector<T>::Vector()
 }
 
 template<class T>
-Vector<T>::Vector(Vector<T>::size_type n)
+array<T>::array(array<T>::size_type n)
 {
 	//Determining necessary capacity to store n elements
 	m_capacity = pow(2, ceil(log2((double)n)));
@@ -28,7 +28,7 @@ Vector<T>::Vector(Vector<T>::size_type n)
 }
 
 template<class T>
-Vector<T>::Vector(Vector<T>::size_type n, T& val)
+array<T>::array(array<T>::size_type n, T& val)
 {
 	//Determining necessary capacity to store n elements
 	m_capacity = pow(2, ceil(log2((double)n)));
@@ -46,7 +46,7 @@ Vector<T>::Vector(Vector<T>::size_type n, T& val)
 }
 
 template<class T>
-Vector<T>::Vector(const Vector<T>& vector)
+array<T>::array(const array<T>& vector)
 {
 	//Copying internal attributes from other vector
 	m_size = vector.m_size;
@@ -62,7 +62,7 @@ Vector<T>::Vector(const Vector<T>& vector)
 }
 
 template<class T>
-Vector<T>::Vector(Vector<T>&& vector)
+array<T>::array(array<T>&& vector)
 {
 	//Transfert of the other vector's internal data to the new object
 	m_data = vector.m_data;
@@ -76,14 +76,14 @@ Vector<T>::Vector(Vector<T>&& vector)
 }
 
 template <class T>
-Vector<T>::~Vector()
+array<T>::~array()
 {
 	//Deallocating the array
 	delete[] m_data;
 }
 
 template<class T>
-Vector<T>& Vector<T>::operator=(const Vector<T>& vector)
+array<T>& array<T>::operator=(const array<T>& vector)
 {
 	if (this != &vector) {
 		delete[] m_data;
@@ -98,11 +98,11 @@ Vector<T>& Vector<T>::operator=(const Vector<T>& vector)
 		}
 	}
 
-	return this*;
+	return *this;
 }
 
 template<class T>
-Vector<T>& Vector<T>::operator=(Vector<T>&& vector)
+array<T>& array<T>::operator=(array<T>&& vector)
 {
 	if (this != &vector) {
 		delete[] m_data;
@@ -118,17 +118,17 @@ Vector<T>& Vector<T>::operator=(Vector<T>&& vector)
 		vector.m_capacity = 0;
 	}
 
-	return this*;
+	return *this;
 }
 
 template<class T>
-typename Vector<T>::size_type Vector<T>::size() const
+typename array<T>::size_type array<T>::size() const
 {
 	return m_size;
 }
 
 template<class T>
-void Vector<T>::resize(size_type n)
+void array<T>::resize(size_type n)
 {
 	//For loop to remove elements past n if n is smaller than current size
 	for (int i = n; i < m_size; ++i) {
@@ -143,7 +143,7 @@ void Vector<T>::resize(size_type n)
 }
 
 template<class T>
-void Vector<T>::resize(size_type n, const T & val)
+void array<T>::resize(size_type n, const T & val)
 {
 	//For loop to remove elements past n if n is smaller than current size
 	for (int i = n; i < m_size; ++i) {
@@ -163,20 +163,20 @@ void Vector<T>::resize(size_type n, const T & val)
 }
 
 template<class T>
-typename Vector<T>::size_type Vector<T>::capacity() const
+typename array<T>::size_type array<T>::capacity() const
 {
 	return m_capacity;
 }
 
 template<class T>
-bool Vector<T>::empty() const
+bool array<T>::empty() const
 {
 	//Object is considered empty if size (nb of elements) is 0
 	return m_size==0;
 }
 
 template<class T>
-void Vector<T>::reserve(size_type n)
+void array<T>::reserve(size_type n)
 {
 	//Operation will only be executed if desired capacity n is smaller then current capacity
 	if (n > m_capacity) {
@@ -202,18 +202,18 @@ void Vector<T>::reserve(size_type n)
 }
 
 template<class T>
-void Vector<T>::shrink_to_fit()
+void array<T>::shrink_to_fit()
 {
 	//Operation will only be executed if reducing the size of the array will allow it to still contain all of it's elements
 	if (m_capacity / 2 >= m_size) {
 		//Determining necessary capacity
-		size_type newCapacity = pow(2, ceil(log2((double)n)));
+		size_type newCapacity = pow(2, ceil(log2((double)m_size)));
 
 		//Allocating new array of determined capacity
 		T* newArray = new T[newCapacity];
 
 		//Copy of elements from previous array to new array
-		for (int i = 0; i < m_size) {
+		for (int i = 0; i < m_size; i++) {
 			newArray[i] = m_data[i];
 		}
 
@@ -229,21 +229,21 @@ void Vector<T>::shrink_to_fit()
 
 // Return element at index n
 template<class T>
-T & Vector<T>::operator[](size_type n)
+T & array<T>::operator[](size_type n)
 {
 	return m_data[n];
 }
 
 // Return element at index n
 template<class T>
-const T & Vector<T>::operator[](size_type n) const
+const T & array<T>::operator[](size_type n) const
 {
 	return m_data[n];
 }
 
 // Return element at index n, throw exception if index is out of range
 template<class T>
-T & Vector<T>::at(size_type n)
+T & array<T>::at(size_type n)
 {
 	if (n < m_size) {
 		return m_data[n];
@@ -255,7 +255,7 @@ T & Vector<T>::at(size_type n)
 
 // Return element at index n, throw exception if index is out of range
 template<class T>
-const T & Vector<T>::at(size_type n) const
+const T & array<T>::at(size_type n) const
 {
 	if (n < m_size) {
 		return m_data[n];
@@ -267,7 +267,7 @@ const T & Vector<T>::at(size_type n) const
 
 // Return first element, throw exception if index is out of range
 template<class T>
-T & Vector<T>::front()
+T & array<T>::front()
 {
 	if (m_size != 0) {
 		return m_data[0];
@@ -279,7 +279,7 @@ T & Vector<T>::front()
 
 // Return first element, throw exception if index is out of range
 template<class T>
-const T & Vector<T>::front() const
+const T & array<T>::front() const
 {
 	if (m_size != 0) {
 		return m_data[0];
@@ -291,7 +291,7 @@ const T & Vector<T>::front() const
 
 // Return last element, throw exception if index is out of range
 template<class T>
-T & Vector<T>::back()
+T & array<T>::back()
 {
 	if (m_size != 0) {
 		return m_data[m_size - 1];
@@ -303,9 +303,9 @@ T & Vector<T>::back()
 
 // Return last element, throw exception if index is out of range
 template<class T>
-const T & Vector<T>::back() const
+const T & array<T>::back() const
 {
-	/ if (m_size != 0) {
+	if (m_size != 0) {
 		return m_data[m_size - 1];
 	}
 	else {
@@ -315,21 +315,21 @@ const T & Vector<T>::back() const
 
 // Return raw data array
 template<class T>
-T * Vector<T>::data()
+T * array<T>::data()
 {
 	return m_data;
 }
 
 // Return raw data array
 template<class T>
-const T * Vector<T>::data() const
+const T * array<T>::data() const
 {
 	return m_data;
 }
 
 // The container is recreated with only the specified value
 template<class T>
-void Vector<T>::assign(size_type n, const T & val)
+void array<T>::assign(size_type n, const T & val)
 {
 	// CLear container
 	delete[] m_data;
@@ -339,7 +339,7 @@ void Vector<T>::assign(size_type n, const T & val)
 	m_size = n;
 
 	// Allocate memory for the container
-	m_data = new[m_capacity];
+	m_data = new T [m_capacity];
 
 	// Assign each element to the desired value
 	for (int i = 0; i < m_size; ++i) {
@@ -349,7 +349,7 @@ void Vector<T>::assign(size_type n, const T & val)
 
 // Add value to the end of the container
 template<class T>
-void Vector<T>::push_back(const T & val)
+void array<T>::push_back(const T & val)
 {
 	// Enlage container if necessary
 	reserve(m_size + 1);
@@ -363,7 +363,7 @@ void Vector<T>::push_back(const T & val)
 
 // Move value to the end of the container
 template<class T>
-void Vector<T>::push_back(T && val)
+void array<T>::push_back(T && val)
 {
 	// Enlage container if necessary
 	reserve(m_size + 1);
@@ -377,7 +377,7 @@ void Vector<T>::push_back(T && val)
 
 //Remove last element from the container
 template<class T>
-void Vector<T>::pop_back()
+void array<T>::pop_back()
 {
 	// Decrease size by one element
 	--m_size;
@@ -388,7 +388,7 @@ void Vector<T>::pop_back()
 
 // Remove n element starting at index pos
 template<class T>
-void Vector<T>::erase(size_type pos, size_type n)
+void array<T>::erase(size_type pos, size_type n)
 {
 	int i;
 
@@ -398,7 +398,7 @@ void Vector<T>::erase(size_type pos, size_type n)
 	}
 
 	// Reset remaining data
-	for (; i < m_size, ++i) {
+	for (; i < m_size; ++i) {
 		m_data[i] = T();
 	}
 
@@ -408,7 +408,7 @@ void Vector<T>::erase(size_type pos, size_type n)
 
 // This container and vector swap content
 template<class T>
-void Vector<T>::swap(Vector<T>& vector)
+void array<T>::swap(array<T>& vector)
 {
 	// Save data from this container for swap
 	size_type holdSize = m_size;
@@ -428,7 +428,7 @@ void Vector<T>::swap(Vector<T>& vector)
 
 // Remove all data from container
 template<class T>
-void Vector<T>::clear()
+void array<T>::clear()
 {
 	// Reset all elements
 	for (size_type i = 0; i < m_size; ++i) {
@@ -441,7 +441,7 @@ void Vector<T>::clear()
 
 // Convenience fonction to swap data from 2 containers
 template<class T>
-inline void swap(Vector<T>& x, Vector<T>& y)
+inline void swap(array<T>& x, array<T>& y)
 {
 	x.swap(y);
 }
