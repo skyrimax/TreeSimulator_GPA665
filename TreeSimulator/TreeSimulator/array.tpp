@@ -2,8 +2,9 @@
 
 #pragma once
 
-#include<cmath>
-#include<utility>
+#include <cmath>
+#include <utility>
+#include <exception>
 
 template<class T>
 array<T>::array()
@@ -15,7 +16,7 @@ array<T>::array()
 }
 
 template<class T>
-array<T>::array(array<T>::size_type n)
+array<T>::array(size_type n)
 {
 	//Determining necessary capacity to store n elements
 	m_capacity = pow(2, ceil(log2((double)n)));
@@ -28,7 +29,7 @@ array<T>::array(array<T>::size_type n)
 }
 
 template<class T>
-array<T>::array(array<T>::size_type n, T& val)
+array<T>::array(size_type n, const T& val)
 {
 	//Determining necessary capacity to store n elements
 	m_capacity = pow(2, ceil(log2((double)n)));
@@ -40,7 +41,7 @@ array<T>::array(array<T>::size_type n, T& val)
 	m_size = n;
 
 	//Filling array with copies of specified val
-	for (int i=0; i < n; ++1) {
+	for (size_type i=0; i < n; ++i) {
 		m_data[i] = T(val);
 	}
 }
@@ -93,7 +94,7 @@ array<T>& array<T>::operator=(const array<T>& vector)
 
 		m_data = new T[m_capacity];
 
-		for (int i; i < m_size; ++i) {
+		for (size_type i=0; i < m_size; ++i) {
 			m_data[i] = T(vector.m_data[i]);
 		}
 	}

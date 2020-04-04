@@ -10,7 +10,7 @@ public:
 	//Default constructor
 	array();
 	array(size_type n);
-	array(size_type n, T& val);
+	array(size_type n, const T& val);
 	array(const array<T>& vector);
 	array(array<T>&& vector);
 	~array();
