@@ -127,8 +127,10 @@
     <ClCompile Include="Branch.cpp" />
     <ClCompile Include="InterestingWind.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Rotation.cpp" />
     <ClCompile Include="Scale.cpp" />
+    <ClCompile Include="Torque.cpp" />
     <ClCompile Include="TransformationMatrix.cpp" />
     <ClCompile Include="Translation.cpp" />
     <ClCompile Include="Tree.cpp" />
@@ -140,8 +142,10 @@
     <ClInclude Include="Branch.h" />
     <ClInclude Include="InterestingWind.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Physics.h" />
     <ClInclude Include="Rotation.h" />
     <ClInclude Include="Scale.h" />
+    <ClInclude Include="Torque.h" />
     <ClInclude Include="TransformationMatrix.h" />
     <ClInclude Include="Translation.h" />
     <ClInclude Include="Tree.h" />

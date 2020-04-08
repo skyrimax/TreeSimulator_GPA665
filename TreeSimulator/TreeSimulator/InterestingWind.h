@@ -9,6 +9,6 @@ public:
 	InterestingWind();
 	~InterestingWind();
 
-	virtual Vector operator()(double t) override;
+	virtual Vector operator()(double t) const override;
 };
 

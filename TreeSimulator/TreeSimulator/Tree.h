@@ -29,8 +29,9 @@ public:
 	Tree& operator=(const Tree& tree);
 	Tree& operator=(Tree&& tree);
 
-	std::string simulate(const Wind& wind);
-	void simulateTick(const Vector& wind);
+	std::string simulate(unsigned int width, unsigned int height, unsigned int pixelsPerMeter,
+		const Wind& wind, double tTotal, int fps, int ticksPerSec);
+	void simulateTick(const Vector& wind, double duration);
 	std::string printFrame(const TransformationMatrix& treeBase, double scale);
 
 private:
@@ -90,7 +91,7 @@ inline array<Branch*> Tree::createBranchLevel(Branch * parent,
 				dia = minDiaBranch;
 			}
 			temp= new Branch(parent, length, dia, -openingAngle / 2 + i * openingAngle / (nbBranches - 1),
-				youngModulus, ultimateTensileStrenght, shearModulus, ultimateSheerStrenght, density);
+				youngModulus, ultimateTensileStrenght, shearModulus, ultimateSheerStrenght, density, false);
 
 			temp->addBranches(createBranchLevel(temp, lengthRatioRandDist, diaRatioRandDist, openingAngleRandDist,
 				nbBranchesRandDist, _Eng, level + 1, maxNbLvls, minLengthBranch, minDiaBranch,

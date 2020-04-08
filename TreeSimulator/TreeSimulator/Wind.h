@@ -11,13 +11,13 @@ public:
 	Wind();
 	~Wind();
 
-	virtual Vector operator()(double t)=0;
+	virtual Vector operator()(double t)const = 0;
 
-	std::string printWindProfile(TransformationMatrix& originOfProfile, double tTotal);
-	std::string printCursor(TransformationMatrix& originOfProfile, double t, double tTotal);
+	std::string printWindProfile(const TransformationMatrix& originOfProfile, unsigned int width, double tTotal) const;
+	std::string printCursor(const TransformationMatrix& originOfProfile, unsigned int width, double t, double tTotal) const;
 
-	double getMaxX(double begin, double end);
-	double getMinX(double begin, double end);
-	double getMaxY(double begin, double end);
-	double getMinY(double begin, double end);
+	double getMaxX(double begin, double end) const;
+	double getMinX(double begin, double end) const;
+	double getMaxY(double begin, double end) const;
+	double getMinY(double begin, double end) const;
 };

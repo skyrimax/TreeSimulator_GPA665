@@ -19,7 +19,7 @@ template<class T>
 array<T>::array(size_type n)
 {
 	//Determining necessary capacity to store n elements
-	m_capacity = pow(2, ceil(log2((double)n)));
+	m_capacity = (int)pow(2, ceil(log2((double)n)));
 
 	//Allocating the array of necessary capacity
 	m_data = new T[m_capacity];
@@ -32,7 +32,7 @@ template<class T>
 array<T>::array(size_type n, const T& val)
 {
 	//Determining necessary capacity to store n elements
-	m_capacity = pow(2, ceil(log2((double)n)));
+	m_capacity = (int)pow(2, ceil(log2((double)n)));
 
 	//Allocating the array of necessary capacity
 	m_data = new T[m_capacity];
@@ -189,7 +189,7 @@ void array<T>::reserve(size_type n)
 
 		//Copy of elements from previous array to new array
 		for (size_type i = 0; i < m_size; ++i) {
-			newArray[i] = m_data[i];
+			newArray[i] = std::move(m_data[i]);
 		}
 
 		//Deallocation of previous array

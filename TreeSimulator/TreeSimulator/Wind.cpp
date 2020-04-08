@@ -10,7 +10,7 @@ Wind::~Wind()
 {
 }
 
-std::string Wind::printWindProfile(TransformationMatrix & originOfProfile, double tTotal)
+std::string Wind::printWindProfile(const TransformationMatrix & originOfProfile, unsigned int width, double tTotal) const
 {
 	std::stringstream profilStr;
 
@@ -46,13 +46,13 @@ std::string Wind::printWindProfile(TransformationMatrix & originOfProfile, doubl
 	}
 
 	// Position of labels on x horizontal axis
-	Vector posTx(980, heightXAxis);
+	Vector posTx(width - 20, heightXAxis);
 	Vector pos0x(5, heightXAxis);
 	// Positions for the x horizontal axix
 	Vector tailHoriAxisX(5, heightXAxis);
-	Vector tipHoriAxisX(995, heightXAxis);
-	Vector arrowTopX(990, heightXAxis - 5);
-	Vector arrowBottomX(990, heightXAxis + 5);
+	Vector tipHoriAxisX(width - 5, heightXAxis);
+	Vector arrowTopX(width - 10, heightXAxis - 5);
+	Vector arrowBottomX(width - 10, heightXAxis + 5);
 
 	// Positions for the time axis of the y component
 	int heightYAxis;
@@ -92,13 +92,13 @@ std::string Wind::printWindProfile(TransformationMatrix & originOfProfile, doubl
 	}
 
 	// Position of labels on y horizontal axis
-	Vector posTy(980, heightXAxis);
+	Vector posTy(width - 20, heightXAxis);
 	Vector pos0y(5, heightXAxis);
 	// Positions for the y horizontal axix
 	Vector tailHoriAxisY(5, heightYAxis);
-	Vector tipHoriAxisY(995, heightYAxis);
-	Vector arrowTopY(990, heightYAxis - 5);
-	Vector arrowBottomY(990, heightYAxis + 5);
+	Vector tipHoriAxisY(width - 5, heightYAxis);
+	Vector arrowTopY(width - 10, heightYAxis - 5);
+	Vector arrowBottomY(width - 10, heightYAxis + 5);
 
 	// Translation matrix to place the axes of the axes
 	Translation transYComp(0, 100);
@@ -131,27 +131,27 @@ std::string Wind::printWindProfile(TransformationMatrix & originOfProfile, doubl
 	profilStr << "dlin " << originOfProfile * transYComp * tipHoriAxisY << " " << originOfProfile * transYComp * arrowBottomY << '\n';
 
 	// Wind profile as points;
-	for (int i = 0; i < 980; ++i) {
-		profilStr << "dpnt " << originOfProfile * Vector(i + 15, -scaleX * (*this)(i*tTotal / 980.0).getX() + heightXAxis) << '\n';
-		profilStr << "dpnt " << originOfProfile * transYComp * Vector(i + 15, -scaleY * (*this)(i*tTotal*980.0).getY() + heightYAxis) << '\n';
+	for (size_t i = 0; i < width - 20; ++i) {
+		profilStr << "dpnt " << originOfProfile * Vector(i + 15, -scaleX * (*this)(i*tTotal / (width - 20)).getX() + heightXAxis) << '\n';
+		profilStr << "dpnt " << originOfProfile * transYComp * Vector(i + 15, -scaleY * (*this)(i*tTotal*(width - 20)).getY() + heightYAxis) << '\n';
 	}
 
 	return profilStr.str();
 }
 
-std::string Wind::printCursor(TransformationMatrix & originOfProfile, double t, double tTotal)
+std::string Wind::printCursor(const TransformationMatrix & originOfProfile, unsigned int width, double t, double tTotal) const
 {
 	std::stringstream cursorStr;
 
-	Vector top(t * 980 / tTotal + 15, 0);
-	Vector buttom(t * 980 / tTotal + 15, 200);
+	Vector top(t * (width - 20) / tTotal + 15, 0);
+	Vector buttom(t * (width - 20) / tTotal + 15, 200);
 
 	cursorStr << "dlin " << originOfProfile * top << " " << originOfProfile * buttom << '\n';
 
 	return cursorStr.str();
 }
 
-double Wind::getMaxX(double begin, double end)
+double Wind::getMaxX(double begin, double end) const
 {
 	double max = 0;
 	double cur;
@@ -168,7 +168,7 @@ double Wind::getMaxX(double begin, double end)
 	return max;
 }
 
-double Wind::getMinX(double begin, double end)
+double Wind::getMinX(double begin, double end) const
 {
 	double min = DBL_MAX;
 	double cur;
@@ -185,7 +185,7 @@ double Wind::getMinX(double begin, double end)
 	return min;
 }
 
-double Wind::getMaxY(double begin, double end)
+double Wind::getMaxY(double begin, double end) const
 {
 	double max = 0;
 	double cur;
@@ -202,7 +202,7 @@ double Wind::getMaxY(double begin, double end)
 	return max;
 }
 
-double Wind::getMinY(double begin, double end)
+double Wind::getMinY(double begin, double end) const
 {
 	double min = DBL_MAX;
 	double cur;

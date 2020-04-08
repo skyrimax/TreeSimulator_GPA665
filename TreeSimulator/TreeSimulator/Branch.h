@@ -4,6 +4,7 @@
 
 #include "array.h"
 #include "Vector.h"
+#include "Torque.h"
 #include "Wind.h"
 #include "TransformationMatrix.h"
 
@@ -14,7 +15,7 @@ public:
 	Branch(Branch* parent, double length, double dia, double angle,
 		double youngModulus, double ultimateTensileStrenght,
 		double shearModulus, double ultimateSheerStrenght,
-		double density);
+		double density, bool isTrunk);
 	Branch(const Branch& branch);
 	Branch(Branch&& branch);
 	~Branch();
@@ -24,32 +25,34 @@ public:
 
 	void addBranches(array<Branch*> branches);
 
-	double simulate(const Vector& wind, array<Branch*>& brokenBranches);
+	virtual void simulate(const Vector& wind, double duration, array<Branch*>& brokenBranches);
 	std::string printFrame(const TransformationMatrix& matrix, double scale);
 
 	double getLength() const;
 	double getDia() const;
 	double getAngle() const;
-	double getMass() const;
-	const Vector& getVelocity() const;
-	const Vector& getCenterOfMass() const;
+	//const Vector& getVelocity() const;
 	
-	const Vector getExperiencedForce(const Wind& wind) const;
+	array<Torque> getExperiencedForces(const Vector& wind) const;
+	array<Torque> getChildrenExperiencedForces(const Vector& wind) const;
 
-	const Vector getAbsEndCoordinates();
-	double getAbsEndOrientation();
+	double getAbsEndOrientation() const;
 
-	const double getBranchesMass() const;
-	const Vector getBranchesVelocity() const;
-	const Vector getBranchesCenterOfMass() const;
-	const Vector getBranchesExperiencedForce(const Wind& wind) const;
+	//const Vector getBranchesVelocity() const;
+	double getMass() const;
+	double getChildrenMass() const;
+	double getInertia() const;
+	double getChildrenInertia() const;
+	Vector getCenterOfMass() const;
+	Vector getChildrenCenterOfMass() const;
 
 private:
 	struct Segment
 	{
-		Segment(double length=0, double angle=0) :m_length(length), m_angle(angle) {}
+		Segment(double length = 0, double angle = 0, double angularVelocity = 0) :m_length(length), m_angle(angle), m_angularVelocity(angularVelocity) {}
 		double m_length;
 		double m_angle;
+		double m_angularVelocity;
 	};
 
 	Branch* m_parent;
@@ -63,11 +66,11 @@ private:
 
 	double m_mass;
 	double m_density;
-	Vector m_velocity;
-	Vector m_centerOfMass;
 
 	double m_youngModulus;
 	double m_ultimateTensileStrenght;
 	double m_shearModulus;
 	double m_ultimateSheerStrenght;
+
+	bool m_isTrunk;
 };

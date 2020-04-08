@@ -31,7 +31,7 @@ Tree::Tree(int maxNbLvls, double minlengthRatio, double maxLengthRatio,
 
 	// Creating the trunk as base for the other branches
 	m_trunk = new Branch(nullptr, lengthTrunkRandDist(gen), diaTrunkRandDist(gen), 0,
-		youngModulus, ultimateTensileStrenght, shearModulus, ultimateSheerStrenght, density);
+		youngModulus, ultimateTensileStrenght, shearModulus, ultimateSheerStrenght, density, true);
 
 	m_trunk->addBranches(createBranchLevel(m_trunk, lengthRatioRandDist, diaRatioRandDist, openingAngleRandDist,
 		nbBranchesRandDist, gen, 2, maxNbLvls, minLengthBranch, minDiaBranch,
@@ -96,6 +96,58 @@ Tree & Tree::operator=(Tree && tree)
 	m_brokenBranches = std::move(tree.m_brokenBranches);
 
 	return *this;
+}
+
+std::string Tree::simulate(unsigned int width, unsigned int height, unsigned int pixelsPerMeter,
+	const Wind & wind, double tTotal, int fps, int ticksPerSec)
+{
+	std::stringstream simulation;
+	std::stringstream axes;
+
+	TransformationMatrix trunk(Translation(width/2, height-205)*TransformationMatrix({ 1,0,0,0 ,0,-1,0,0, 0,0,-1,0, 0,0,0,1 }));
+	Translation originAxes(0, height-205);
+
+	double tickTime = 1.0 / ticksPerSec;
+	int totalTicks = (int)(tTotal * ticksPerSec);
+	int ticksPerFrame = (int)round((double)ticksPerSec / (double)fps);
+
+	axes << wind.printWindProfile(originAxes, width, tTotal);
+
+	// Title
+	simulation << "Tree simulation\n";
+
+	// Initialisation frame
+	simulation << "INIT\n";
+	simulation << "cbru 255 255 255\n";
+	simulation << "cpen 0 0 0\n";
+	simulation << "eras 255 255 255\n";
+
+	for (int i = 0; i < totalTicks; ++i) {
+		simulateTick(wind(i*tickTime), tickTime);
+
+		if (i%ticksPerFrame == 0 || i == totalTicks) {
+			simulation << "FRAME\n";
+			simulation << "eras 255 255 255\n";
+			simulation << printFrame(trunk, pixelsPerMeter);
+			simulation << axes.str();
+			simulation << wind.printCursor(originAxes, width, i*tickTime, tTotal);
+			simulation << "wait " << 100*(int)round(1000 / fps) << '\n';
+		}
+	}
+
+	simulation << "END";
+
+	return simulation.str();
+}
+
+void Tree::simulateTick(const Vector & wind, double duration)
+{
+	// Stating by simulating the broken branches to avoid simulation the same branches twice
+	for (size_t i = 0; i < m_brokenBranches.size(); ++i) {
+		m_brokenBranches[i]->simulate(wind, duration, m_brokenBranches);
+	}
+
+	m_trunk->simulate(wind, duration, m_brokenBranches);
 }
 
 std::string Tree::printFrame(const TransformationMatrix & treeBase, double scale)
