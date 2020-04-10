@@ -60,6 +60,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <AdditionalIncludeDirectories>C:\Users\MaxRo\source\repos\TreeSimulator_GPA665\TreeSimulator\TreeSimulator;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -74,6 +75,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <AdditionalIncludeDirectories>C:\Users\MaxRo\source\repos\TreeSimulator_GPA665\TreeSimulator\TreeSimulator;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -95,12 +97,12 @@
     <QtRcc Include="TreeSimulatorUI.qrc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TreeSimulator\TreeSimulator.vcxproj">
-      <Project>{eab6160d-205f-497f-90a2-f0ec4c4746ef}</Project>
-    </ProjectReference>
+    <Library Include="..\Debug\TreeSimulator.lib" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\Debug\TreeSimulator.lib" />
+    <ProjectReference Include="..\TreeSimulator\TreeSimulator.vcxproj">
+      <Project>{30f99be0-6174-451a-a320-0b688b2e5d80}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

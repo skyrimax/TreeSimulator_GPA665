@@ -11,7 +11,7 @@
 #include "Wind.h"
 #include "TransformationMatrix.h"
 
-class Tree : public QObject
+class Tree : 
 {
 
 	Q_OBJECT
@@ -38,9 +38,6 @@ public:
 		const Wind& wind, double tTotal, int fps, int ticksPerSec);
 	void simulateTick(const Vector& wind, double duration);
 	std::string printFrame(const TransformationMatrix& treeBase, double scale);
-
-signals:
-	void finishedThick(double progress);
 
 private:
 	template<class RNG>

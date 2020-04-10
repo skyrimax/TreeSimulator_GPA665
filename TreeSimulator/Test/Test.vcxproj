@@ -127,15 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TreeSimulator\TreeSimulator.vcxproj">
-      <Project>{eab6160d-205f-497f-90a2-f0ec4c4746ef}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\Debug\TreeSimulator.lib" />
+    <Library Include="..\x64\Debug\TreeSimulator.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TreeSimulator\TreeSimulator.vcxproj">
+      <Project>{30f99be0-6174-451a-a320-0b688b2e5d80}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

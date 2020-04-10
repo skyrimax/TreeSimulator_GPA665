@@ -1,7 +1,5 @@
 #include "Tree.h"
 
-#include <QCoreApplication>
-
 #include <sstream>
 #include <utility>
 
@@ -124,7 +122,7 @@ std::string Tree::simulate(unsigned int width, unsigned int height, unsigned int
 	simulation << "cpen 0 0 0\n";
 	simulation << "eras 255 255 255\n";
 
-	for (int i = 0; i <= totalTicks; ++i) {
+	for (int i = 0; i < totalTicks; ++i) {
 		simulateTick(wind(i*tickTime), tickTime);
 
 		if (i%ticksPerFrame == 0 || i == totalTicks) {
@@ -135,10 +133,6 @@ std::string Tree::simulate(unsigned int width, unsigned int height, unsigned int
 			simulation << wind.printCursor(originAxes, width, i*tickTime, tTotal);
 			simulation << "wait " << (int)round(1000 / fps) << '\n';
 		}
-
-		emit finishedThick(((double)i) / ((double)totalTicks));
-
-		QCoreApplication::processEvents();
 	}
 
 	simulation << "END";
